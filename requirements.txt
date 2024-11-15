@@ -1,2 +1,2 @@
-# No external dependencies required - using Python standard library only
-# Python version >= 3.6 recommended
+Jinja2==3.1.4
+MarkupSafe==3.0.2
