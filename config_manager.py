@@ -46,7 +46,8 @@ class ConfigManager:
             'audio_ch2': 'false',
             'audio_pgm': 'false',
             'path': '/media/recordings',
-            'patient_id': 'P1213'
+            'patient_id': 'P1213',
+            'usb_device_recording': '/media/user/UBUNTU18_0/Patient_ID_0/Patient_ID_0_2.mp4'
         }
         
         config['NETWORK'] = {
@@ -58,7 +59,9 @@ class ConfigManager:
             'link': 'http://example.com/stream',
             'rtmp_key': 'your_rtmp_key',
             'rtsp_url': 'rtsp://example.com/stream',
-            'rtsp_name': 'your_rtsp_name'
+            'rtsp_name': 'your_rtsp_name',
+            'rtmp_enabled': 'true',
+            'rtsp_enabled': 'true'
         }
         
         with open(ConfigManager.CONFIG_FILE, 'w') as f:

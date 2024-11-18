@@ -92,6 +92,17 @@
                     <label for="ipstream_url">URL:</label>
                     <input type="text" name="ipstream_url" id="ipstream_url" value="{{ config['IPSTREAM']['url'] }}">
                 </div>
+
+                <div class="form-group">
+                    <label for="source-type">Source Type:</label>
+                    <select name="source-type" id="source-type">
+                        <option value="cam0cam1">CAM-0 and CAM-1</option>
+                        <option value="cam0file">CAM-0 and File</option>
+                        <option value="cam1file">CAM-1 and File</option>
+                        <option value="cam0ipstream">CAM-0 and IP Stream</option>
+                        <option value="cam1ipstream">CAM-1 and IP Stream</option>
+                    </select>
+                </div>
             </div>
 
             <div class="section" id="audio" style="display: none;">
@@ -130,21 +141,21 @@
                         <div class="form-group">
                             <label for="rec_video_ch1">Channel 1</label>
                             <label class="toggle-switch">
-                                <input type="checkbox" name="rec_video_ch1" {% if config['RECORDING']['video_ch1'] == 'enabled' %} checked{% endif %}>
+                                <input type="checkbox" name="rec_video_ch1" {% if config['RECORDING']['video_ch1'] == 'true' %} checked{% endif %}>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="form-group">
                             <label for="rec_video_ch2">Channel 2</label>
                             <label class="toggle-switch">
-                                <input type="checkbox" name="rec_video_ch2" {% if config['RECORDING']['video_ch2'] == 'enabled' %} checked{% endif %}>
+                                <input type="checkbox" name="rec_video_ch2" {% if config['RECORDING']['video_ch2'] == 'true' %} checked{% endif %}>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="form-group">
                             <label>PGM</label>
                             <label class="toggle-switch">
-                                <input type="checkbox" name="rec_video_pgm" {% if config['RECORDING']['video_pgm'] == 'enabled' %} checked{% endif %}>
+                                <input type="checkbox" name="rec_video_pgm" {% if config['RECORDING']['video_pgm'] == 'true' %} checked{% endif %}>
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -155,14 +166,14 @@
                         <div class="form-group">
                             <label>Channel 1</label>
                             <label class="toggle-switch">
-                                <input type="checkbox" name="rec_audio_ch1" {% if config['RECORDING']['audio_ch1'] == 'enabled' %} checked{% endif %}>
+                                <input type="checkbox" name="rec_audio_ch1" {% if config['RECORDING']['audio_ch1'] == 'true' %} checked{% endif %}>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Channel 2</label>
                             <label class="toggle-switch">
-                                <input type="checkbox" name="rec_audio_ch2" {% if config['RECORDING']['audio_ch2'] == 'enabled' %} checked{% endif %}>
+                                <input type="checkbox" name="rec_audio_ch2" {% if config['RECORDING']['audio_ch2'] == 'true' %} checked{% endif %}>
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -178,13 +189,21 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="rec_path">Recording Path:</label>
-                    <input type="text" name="rec_path" id="rec_path" value="{{ config['RECORDING']['path'] }}">
+                    <label for="usb_device_recording">Recording Path:</label>
+                    <select name="usb_device_recording" id="usb_device_recording">
+                        {% for device in usb_devices %}
+                            <option value="{{ device }}">{{ device }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
+
                 <div class="form-group">
                     <label for="patient_id">Patient ID:</label>
                     <input type="text" name="patient_id" id="patient_id" value="{{ config['RECORDING']['patient_id'] }}">
                 </div>
+
+
+            
             </div>
 
             <div class="section" id="network-settings" style="display: none;">
@@ -205,18 +224,35 @@
             </div>
 
             <div class="section" id="network-streaming" style="display: none;">
+             <!-- rtmp and rtsp toggle -->
                 <h2>Network Streaming Settings</h2>
+                <h3>RTMP Settings</h3>
                 <div class="form-group">
-                    <label for="network_streaming_link">Streaming Link:</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" name="rtmp_enabled" {% if config['NETWORK_STREAMING']['rtmp_enabled'] == 'true' %} checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="rtmp-settings" {% if config['NETWORK_STREAMING']['rtmp_enabled'] == 'false' %} hidden{% endif %}>
+                <div class="form-group">
+                    <label for="network_streaming_link">RTMP URL:</label>
                     <input type="text" name="network_streaming_link" id="network_streaming_link" value="{{ config['NETWORK_STREAMING']['link'] }}">
                 </div>
                 <div class="form-group">
-                    <h3>RTMP Settings</h3>
                     <label for="rtmp_key">RTMP Key:</label>
                     <input type="text" name="rtmp_key" id="rtmp_key" value="{{ config['NETWORK_STREAMING']['rtmp_key'] }}">
                 </div>
+            </div>
+
+                <h3>RTSP Settings</h3>
                 <div class="form-group">
-                    <h3>RTSP Settings</h3>
+                    <label class="toggle-switch">
+                        <input type="checkbox" name="rtsp_enabled" {% if config['NETWORK_STREAMING']['rtsp_enabled'] == 'true' %} checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="rtsp-settings" {% if config['NETWORK_STREAMING']['rtsp_enabled'] == 'false' %} hidden{% endif %}>
+                <div class="form-group">
                     <label for="rtsp_url">RTSP URL:</label>
                     <input type="text" name="rtsp_url" id="rtsp_url" value="{{ config['NETWORK_STREAMING']['rtsp_url'] }}">
                 </div>
@@ -224,6 +260,7 @@
                     <label for="rtsp_name">RTSP Name:</label>
                     <input type="text" name="rtsp_name" id="rtsp_name" value="{{ config['NETWORK_STREAMING']['rtsp_name'] }}">
                 </div>
+            </div>
             </div>
 
             <div class="button-group">
@@ -287,6 +324,17 @@
                 console.error('Error:', error);
                 alert('An error occurred while saving the configuration.');
             });
+        });
+
+        // RTMP and RTSP toggle - if is enabled, show the input fields - separate
+        document.querySelector('input[name="rtmp_enabled"]').addEventListener('change', function() {
+            const rtmpSettings = document.getElementById('rtmp-settings');
+            rtmpSettings.style.display = this.checked ? 'block' : 'none';
+        });
+
+        document.querySelector('input[name="rtsp_enabled"]').addEventListener('change', function() {
+            const rtspSettings = document.getElementById('rtsp-settings');
+            rtspSettings.style.display = this.checked ? 'block' : 'none';
         });
 
         // Maintain current tab
