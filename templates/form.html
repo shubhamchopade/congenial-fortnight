@@ -76,14 +76,14 @@
                 <div class="form-group">
                     <label for="file_f1">F1:</label>
                     <select name="file_f1" id="file_f1">
-                        <option value="{{ config['FILE']['f1'] }}">{{ config['FILE']['f1'] }}</option>
+                        <option value="{{ config['HDMI']['f1'] }}">{{ config['HDMI']['f1'] }}</option>
                         <!-- Add more options as needed -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="file_f2">F2:</label>
                     <select name="file_f2" id="file_f2">
-                        <option value="{{ config['FILE']['f2'] }}">{{ config['FILE']['f2'] }}</option>
+                        <option value="{{ config['HDMI']['f2'] }}">{{ config['HDMI']['f2'] }}</option>
                         <!-- Add more options as needed -->
                     </select>
                 </div>
@@ -96,11 +96,12 @@
                 <div class="form-group">
                     <label for="source-type">Source Type:</label>
                     <select name="source-type" id="source-type">
-                        <option value="cam0cam1">CAM-0 and CAM-1</option>
-                        <option value="cam0file">CAM-0 and File</option>
-                        <option value="cam1file">CAM-1 and File</option>
-                        <option value="cam0ipstream">CAM-0 and IP Stream</option>
-                        <option value="cam1ipstream">CAM-1 and IP Stream</option>
+                        <!-- compare for lowercase config["SOURCE"]["type"]-->
+                        <option value="cam0cam1" {% if config["SOURCE"]["type"] == "CAM-0 & CAM-1" %} selected{% endif %}>CAM-0 & CAM-1</option>
+                        <option value="cam0file" {% if config["SOURCE"]["type"] == "CAM-0 & File" %} selected{% endif %}>CAM-0 & File</option>
+                        <option value="cam1file" {% if config["SOURCE"]["type"] == "CAM-1 & File" %} selected{% endif %}>CAM-1 & File</option>
+                        <option value="cam0ipstream" {% if config["SOURCE"]["type"] == "CAM-0 & IP Stream" %} selected{% endif %}>CAM-0 & IP Stream</option>
+                        <option value="cam1ipstream" {% if config["SOURCE"]["type"] == "CAM-1 & IP Stream" %} selected{% endif %}>CAM-1 & IP Stream</option>
                     </select>
                 </div>
             </div>
@@ -111,14 +112,14 @@
                     <div class="form-group">
                         <label>Channel 1</label>
                         <label class="toggle-switch">
-                            <input type="checkbox" name="audio_ch1" {% if config['AUDIO']['ch1_enabled'] == 'true' %} checked{% endif %}>
+                            <input type="checkbox" name="audio_ch1" {% if config['AUDIO']['channel1'] == 'true' %} checked{% endif %}>
                             <span class="slider"></span>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>Channel 2</label>
                         <label class="toggle-switch">
-                            <input type="checkbox" name="audio_ch2" {% if config['AUDIO']['ch2_enabled'] == 'true' %} checked{% endif %}>
+                            <input type="checkbox" name="audio_ch2" {% if config['AUDIO']['channel2'] == 'true' %} checked{% endif %}>
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -235,8 +236,8 @@
                 </div>
                 <div id="rtmp-settings" {% if config['NETWORK_STREAMING']['rtmp_enabled'] == 'false' %} hidden{% endif %}>
                 <div class="form-group">
-                    <label for="network_streaming_link">RTMP URL:</label>
-                    <input type="text" name="network_streaming_link" id="network_streaming_link" value="{{ config['NETWORK_STREAMING']['link'] }}">
+                    <label for="rtmp_link">RTMP URL:</label>
+                    <input type="text" name="rtmp_link" id="rtmp_link" value="{{ config['NETWORK_STREAMING']['rtmp_link'] }}">
                 </div>
                 <div class="form-group">
                     <label for="rtmp_key">RTMP Key:</label>
@@ -254,11 +255,11 @@
                 <div id="rtsp-settings" {% if config['NETWORK_STREAMING']['rtsp_enabled'] == 'false' %} hidden{% endif %}>
                 <div class="form-group">
                     <label for="rtsp_url">RTSP URL:</label>
-                    <input type="text" name="rtsp_url" id="rtsp_url" value="{{ config['NETWORK_STREAMING']['rtsp_url'] }}">
+                    <input disabled type="text" name="rtsp_url" id="rtsp_url" value="{{ config['NETWORK_STREAMING']['rtsp_url'] }}">
                 </div>
                 <div class="form-group">
                     <label for="rtsp_name">RTSP Name:</label>
-                    <input type="text" name="rtsp_name" id="rtsp_name" value="{{ config['NETWORK_STREAMING']['rtsp_name'] }}">
+                    <input disabled type="text" name="rtsp_name" id="rtsp_name" value="{{ config['NETWORK_STREAMING']['rtsp_name'] }}">
                 </div>
             </div>
             </div>

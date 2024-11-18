@@ -56,7 +56,7 @@ class ConfigManager:
         }
         
         config['NETWORK_STREAMING'] = {
-            'link': 'http://example.com/stream',
+            'rtmp_link': 'http://example.com/stream',
             'rtmp_key': 'your_rtmp_key',
             'rtsp_url': 'rtsp://example.com/stream',
             'rtsp_name': 'your_rtsp_name',

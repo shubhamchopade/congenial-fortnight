@@ -37,25 +37,25 @@ class ConfigHandler(BaseHTTPRequestHandler):
         config["HDMI"]["f1"] = params_dict["file_f1"]
         config["HDMI"]["f2"] = params_dict["file_f2"]
         if params_dict["source-type"] == "cam0cam1":
-            config["SOURCE"]["type"] = "CAM-0 and File"
+            config["SOURCE"]["type"] = "CAM-0 & CAM-1"
         elif params_dict["source-type"] == "cam0file":
-            config["SOURCE"]["type"] = "CAM-0 and File"
+            config["SOURCE"]["type"] = "CAM-0 & File"
         elif params_dict["source-type"] == "cam1file":
-            config["SOURCE"]["type"] = "CAM-1 and File"
+            config["SOURCE"]["type"] = "CAM-1 & File"
         elif params_dict["source-type"] == "cam0ipstream":
-            config["SOURCE"]["type"] = "CAM-0 and IP Stream"
+            config["SOURCE"]["type"] = "CAM-0 & IP Stream"
         elif params_dict["source-type"] == "cam1ipstream":
-            config["SOURCE"]["type"] = "CAM-1 and IP Stream"
+            config["SOURCE"]["type"] = "CAM-1 & IP Stream"
         config["IPSTREAM"]["url"] = params_dict["ipstream_url"]
         if 'audio_ch1' in params_dict:
-            config["AUDIO"]["ch1_enabled"] = "true"
+            config["AUDIO"]["channel1"] = "true"
         else:
-            config["AUDIO"]["ch1_enabled"] = "false"
+            config["AUDIO"]["channel1"] = "false"
 
         if 'audio_ch2' in params_dict:
-            config["AUDIO"]["ch2_enabled"] = "true"
+            config["AUDIO"]["channel2"] = "true"
         else:
-            config["AUDIO"]["ch2_enabled"] = "false"
+            config["AUDIO"]["channel2"] = "false"
         # config["AUDIO"]["pgm_enabled"] = params_dict["audio_pgm"]
         if 'audio_pgm' in params_dict:
             config["AUDIO"]["pgm_enabled"] = params_dict["audio_pgm"]
@@ -87,10 +87,15 @@ class ConfigHandler(BaseHTTPRequestHandler):
         config["RECORDING"]["patient_id"] = params_dict["patient_id"]
         config["NETWORK"]["ip_address"] = params_dict["ip_address"]
         config["NETWORK"]["static_ip"] = params_dict["static_ip"]
-        config["NETWORK_STREAMING"]["link"] = params_dict["network_streaming_link"]
-        config["NETWORK_STREAMING"]["rtmp_key"] = params_dict["rtmp_key"]
-        config["NETWORK_STREAMING"]["rtsp_url"] = params_dict["rtsp_url"]
-        config["NETWORK_STREAMING"]["rtsp_name"] = params_dict["rtsp_name"]
+        # config["NETWORK_STREAMING"]["rtmp_link"] = params_dict["rtmp_link"]
+        if "rtmp_key" in params_dict:
+            config["NETWORK_STREAMING"]["rtmp_key"] = params_dict["rtmp_key"]
+        if "rtmp_link" in params_dict:
+            config["NETWORK_STREAMING"]["rtmp_link"] = params_dict["rtmp_link"]
+        if "rtsp_url" in params_dict:
+            config["NETWORK_STREAMING"]["rtsp_url"] = params_dict["rtsp_url"]
+        if "rtsp_name" in params_dict:
+            config["NETWORK_STREAMING"]["rtsp_name"] = params_dict["rtsp_name"]
 
         if "rtsp_enabled" in params_dict:
             config["NETWORK_STREAMING"]["rtsp_enabled"] = "true"
