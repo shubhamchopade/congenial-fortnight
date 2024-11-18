@@ -1,5 +1,4 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-import urllib.parse
 import os
 from config_manager import ConfigManager
 from html_template import HTMLTemplate
@@ -31,9 +30,11 @@ class ConfigHandler(BaseHTTPRequestHandler):
         config["HDMI"]["ch1_hue"] = params_dict["ch1_hue"]
         config["HDMI"]["ch1_saturation"] = params_dict["ch1_saturation"]
         config["HDMI"]["ch1_brightness"] = params_dict["ch1_brightness"]
+        config["HDMI"]["ch1_contrast"] = params_dict["ch1_contrast"]
         config["HDMI"]["ch2_hue"] = params_dict["ch2_hue"]
         config["HDMI"]["ch2_saturation"] = params_dict["ch2_saturation"]
         config["HDMI"]["ch2_brightness"] = params_dict["ch2_brightness"]
+        config["HDMI"]["ch2_contrast"] = params_dict["ch2_contrast"]
         config["HDMI"]["f1"] = params_dict["file_f1"]
         config["HDMI"]["f2"] = params_dict["file_f2"]
         if params_dict["source-type"] == "cam0cam1":
@@ -56,9 +57,12 @@ class ConfigHandler(BaseHTTPRequestHandler):
             config["AUDIO"]["channel2"] = "true"
         else:
             config["AUDIO"]["channel2"] = "false"
-        # config["AUDIO"]["pgm_enabled"] = params_dict["audio_pgm"]
+
         if 'audio_pgm' in params_dict:
-            config["AUDIO"]["pgm_enabled"] = params_dict["audio_pgm"]
+            config["AUDIO"]["pgm_enabled"] = "true"
+        else:
+            config["AUDIO"]["pgm_enabled"] = "false"
+
         if 'rec_video_ch1' in params_dict:
             config["RECORDING"]["video_ch1"] = "true"
         else:

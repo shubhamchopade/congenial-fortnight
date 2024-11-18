@@ -1,6 +1,5 @@
 import configparser
 import os
-import re
 
 class ConfigManager:
     CONFIG_FILE = 'config.ini'
@@ -30,8 +29,6 @@ class ConfigManager:
         }
         
         config['AUDIO'] = {
-            'ch1_enabled': 'true',
-            'ch2_enabled': 'true',
             'pgm_enabled': 'true',
             'channel1': 'true',
             'channel2': 'false',

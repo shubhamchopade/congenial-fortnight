@@ -123,13 +123,13 @@
                             <span class="slider"></span>
                         </label>
                     </div>
+                    
                     <div class="form-group">
                         <label>PGM</label>
-                        <select name="audio_pgm">
-                            <option value="channel1" {% if config['AUDIO']['pgm_enabled'] == 'channel1' %} selected{% endif %}>Channel 1</option>
-                            <option value="channel2" {% if config['AUDIO']['pgm_enabled'] == 'channel2' %} selected{% endif %}>Channel 2</option>
-                            <option value="mute" {% if config['AUDIO']['pgm_enabled'] == 'mute' %} selected{% endif %}>Mute</option>
-                        </select>
+                        <label class="toggle-switch">
+                            <input type="checkbox" name="audio_pgm" {% if config['AUDIO']['pgm_enabled'] == 'true' %} checked{% endif %}>
+                            <span class="slider"></span>
+                        </label>
                     </div>
                 </div>
             </div>
