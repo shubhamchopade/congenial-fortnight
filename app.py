@@ -4,7 +4,6 @@ from config_manager import ConfigManager
 from html_template import HTMLTemplate
 import re
 
-
 class ConfigHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/":
@@ -15,16 +14,49 @@ class ConfigHandler(BaseHTTPRequestHandler):
             config = ConfigManager.read_config()
             html = HTMLTemplate.get_html_form(config)
             self.wfile.write(html.encode())
+        elif self.path == "/login":
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+
+            html = HTMLTemplate.get_login_form()
+            self.wfile.write(html.encode())
         elif self.path.startswith("/static/"):
             self.serve_static_file()
 
     def do_POST(self):
+
+        if self.path == "/login":
+            # get body json data
+            body = self.rfile.read(int(self.headers['Content-Length']))
+            body = body.decode('utf-8')
+            params = body.split('&')
+            params_dict = {}
+            for param in params:
+                key, value = param.split('=')
+                params_dict[key] = value
+
+            if params_dict["username"] == "admin" and params_dict["password"] == "admin":
+                # set cookie loggedIn=true
+                self.send_response(303)
+                self.send_header("Location", "/")
+                self.send_header("Set-Cookie", "loggedIn=true; Path=/")
+                self.end_headers()
+            else:
+                print("Invalid login")
+                self.send_response(303)
+                self.send_header("Location", "/login")
+                self.end_headers()
+            return
+            
         content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length).decode("utf-8")
         pattern = re.compile(r'name="([^"]+)"\r\n\r\n([^-\r\n]+)')
         matches = pattern.findall(post_data)
 
         params_dict = {key: value for key, value in matches}
+
+        print(params_dict)
 
         config = ConfigManager.read_config()
         config["HDMI"]["ch1_hue"] = params_dict["ch1_hue"]
@@ -58,7 +90,7 @@ class ConfigHandler(BaseHTTPRequestHandler):
         else:
             config["AUDIO"]["channel2"] = "false"
 
-        if 'audio_pgm' in params_dict:
+        if 'pgm_enabled' in params_dict:
             config["AUDIO"]["pgm_enabled"] = "true"
         else:
             config["AUDIO"]["pgm_enabled"] = "false"

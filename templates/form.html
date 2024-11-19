@@ -127,7 +127,7 @@
                     <div class="form-group">
                         <label>PGM</label>
                         <label class="toggle-switch">
-                            <input type="checkbox" name="audio_pgm" {% if config['AUDIO']['pgm_enabled'] == 'true' %} checked{% endif %}>
+                            <input type="checkbox" name="pgm_enabled" {% if config['AUDIO']['pgm_enabled'] == 'true' %} checked{% endif %}>
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -181,9 +181,9 @@
                         <div class="form-group">
                             <label>PGM</label>
                             <select name="audio_pgm">
-                                <option value="channel1" {% if config['AUDIO']['pgm_enabled'] == 'channel1' %} selected{% endif %}>Channel 1</option>
-                                <option value="channel2" {% if config['AUDIO']['pgm_enabled'] == 'channel2' %} selected{% endif %}>Channel 2</option>
-                                <option value="mute" {% if config['AUDIO']['pgm_enabled'] == 'none' %} selected{% endif %}>None</option>
+                                <option value="channel1" {% if config['RECORDING']['audio_pgm'] == 'channel1' %} selected{% endif %}>Channel 1</option>
+                                <option value="channel2" {% if config['RECORDING']['audio_pgm'] == 'channel2' %} selected{% endif %}>Channel 2</option>
+                                <option value="mute" {% if config['RECORDING']['audio_pgm'] == 'none' %} selected{% endif %}>None</option>
                             </select>
                         </div>
                     </div>
@@ -359,6 +359,13 @@
                 hiddenInput.value = this.checked ? 'true' : 'false';
             });
         });
+
+        // LOGIN
+        console.log(document.cookie.includes('loggedIn=true'))
+
+        if (!document.cookie.includes('loggedIn=true')) {
+            window.location.href = '/login';
+        } 
     </script>
 </body>
 </html>

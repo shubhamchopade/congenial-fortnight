@@ -34,3 +34,8 @@ class HTMLTemplate:
         sidebar_items = HTMLTemplate.get_sidebar_items()
         usb_devices = HTMLTemplate.get_usb_devices()
         return template.render(config=config, sidebar_items=sidebar_items, usb_devices=usb_devices)
+    
+    @staticmethod
+    def get_login_form():
+        template = HTMLTemplate.env.get_template('login.html')
+        return template.render()
