@@ -13,7 +13,8 @@ class ConfigManager:
             'recording': 'enabled',
             'network_sett': 'enabled',
             'network_stream': 'enabled',
-            'status': 'active'
+            'status': 'active',
+            'sources': '2'
         }
         
         config['HDMI'] = {

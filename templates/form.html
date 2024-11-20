@@ -104,6 +104,12 @@
                         <option value="cam1ipstream" {% if config["SOURCE"]["type"] == "CAM-1 & IP Stream" %} selected{% endif %}>CAM-1 & IP Stream</option>
                     </select>
                 </div>
+
+                <!-- SOURCES -->
+                <div class="form-group" style="margin-top: 12px;">
+                    <h3>Sources: {{ config["SOURCE"]["sources"] }}
+                    </h3>
+                </div>
             </div>
 
             <div class="section" id="audio" style="display: none;">
@@ -167,14 +173,14 @@
                         <div class="form-group">
                             <label>Channel 1</label>
                             <label class="toggle-switch">
-                                <input type="checkbox" name="rec_audio_ch1" {% if config['RECORDING']['audio_ch1'] == 'true' %} checked{% endif %}>
+                                <input type="checkbox" name="rec_audio_ch1"  {% if config['RECORDING']['audio_ch1'] == 'true' %} checked{% endif %} {% if config['RECORDING']['video_ch1'] == 'false' %} disabled{% endif %}>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Channel 2</label>
                             <label class="toggle-switch">
-                                <input type="checkbox" name="rec_audio_ch2" {% if config['RECORDING']['audio_ch2'] == 'true' %} checked{% endif %}>
+                                <input type="checkbox" name="rec_audio_ch2" {% if config['RECORDING']['audio_ch2'] == 'true' %} checked{% endif %} {% if config['RECORDING']['video_ch2'] == 'false' %} disabled{% endif %}>
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -360,9 +366,22 @@
             });
         });
 
-        // LOGIN
-        console.log(document.cookie.includes('loggedIn=true'))
+        // RECORDING - if the rec_video_ch1 is disabled, then disable rec_audio_ch1
+        // if the rec_video_ch2 is disabled, then disable rec_audio_ch2
 
+        document.querySelector('input[name="rec_video_ch1"]').addEventListener('change', function() {
+            const recAudioCh1 = document.querySelector('input[name="rec_audio_ch1"]');
+            recAudioCh1.disabled = !this.checked;
+            recAudioCh1.checked = this.checked;
+        });
+
+        document.querySelector('input[name="rec_video_ch2"]').addEventListener('change', function() {
+            const recAudioCh2 = document.querySelector('input[name="rec_audio_ch2"]');
+            recAudioCh2.disabled = !this.checked;
+            recAudioCh2.checked = this.checked;
+        });
+
+        // LOGIN
         if (!document.cookie.includes('loggedIn=true')) {
             window.location.href = '/login';
         } 
