@@ -1,0 +1,5 @@
+# add for python
+*.pyc
+*.pyo
+venv/
+__pycache__/

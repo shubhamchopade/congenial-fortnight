@@ -77,7 +77,6 @@
                     <label for="file_f1">F1:</label>
                     <select name="file_f1" id="file_f1">
                         <option value="{{ config['HDMI']['f1'] }}">{{ config['HDMI']['f1'] }}</option>
-                        <!-- Add more options as needed -->
                     </select>
                 </div>
                 <div class="form-group">
@@ -313,6 +312,47 @@
                 document.getElementById('static_ip').value = this.value;
             }
         });
+
+        // if usb device 1 is selected, then show f1 and f2 options as mp4_1 obtained from templates if device 2 then mp4_2  if device 3 then mp4_3  if device 4 then mp4_4
+        const file_f1 = document.getElementById("file_f1");
+        const file_f2 = document.getElementById("file_f2");
+        document.getElementById("usb_device").addEventListener("change", function() {
+            const current_usb_device = this.value;
+
+            let mp4_1 = JSON.parse('{{ mp4_1 | tojson }}');
+            let mp4_2 = JSON.parse('{{ mp4_2 | tojson }}');
+            let mp4_3 = JSON.parse('{{ mp4_3 | tojson }}');
+            let mp4_4 = JSON.parse('{{ mp4_4 | tojson }}');
+
+            file_f1.innerHTML = "";
+            file_f2.innerHTML = "";
+
+            // current_usb_device could be any name based on the real device name
+            // replace the usb devices hardcoded to accept any usb device name
+
+            if (current_usb_device.startsWith("1")) {
+                mp4_1.forEach((item) => {
+                    file_f1.innerHTML += `<option value="${item}">${item}</option>`;
+                    file_f2.innerHTML += `<option value="${item}">${item}</option>`;
+                });
+            } else if (current_usb_device.startsWith("2")) {
+                mp4_2.forEach((item) => {
+                    file_f1.innerHTML += `<option value="${item}">${item}</option>`;
+                    file_f2.innerHTML += `<option value="${item}">${item}</option>`;
+                });
+            } else if (current_usb_device.startsWith("3")) {
+                mp4_3.forEach((item) => {
+                    file_f1.innerHTML += `<option value="${item}">${item}</option>`;
+                    file_f2.innerHTML += `<option value="${item}">${item}</option>`;
+                });
+            } else if (current_usb_device.startsWith("4")) {
+                mp4_4.forEach((item) => {
+                    file_f1.innerHTML += `<option value="${item}">${item}</option>`;
+                    file_f2.innerHTML += `<option value="${item}">${item}</option>`;
+                });
+            }
+        })
+
 
         // Handle form submission
         document.getElementById('config-form').addEventListener('submit', function(event) {
