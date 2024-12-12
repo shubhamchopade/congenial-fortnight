@@ -276,10 +276,27 @@
         </form>
     </div>
     <script>
+
+        function updateConfig() {
+            const formData = new FormData(document.getElementById('config-form'));
+            fetch('/save-config', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (!response.ok) {
+                    console.log('Failed to save configuration.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while saving the configuration.');
+            });
+        }
         // Update slider values in real-time
+        // Call /save-config endpoint to save the configuration
         document.querySelectorAll('input[type="range"]').forEach(slider => {
             slider.addEventListener('input', function() {
                 this.nextElementSibling.textContent = this.value;
+                updateConfig();
             });
         });
         
