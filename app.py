@@ -51,7 +51,7 @@ class ConfigHandler(BaseHTTPRequestHandler):
             
         content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length).decode("utf-8")
-        pattern = re.compile(r'name="([^"]+)"\r\n\r\n([^-\r\n]+)')
+        pattern = re.compile(r'name="([^"]+)"\r\n\r\n([^\r\n]+)')
         matches = pattern.findall(post_data)
 
         params_dict = {key: value for key, value in matches}
