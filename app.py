@@ -142,6 +142,19 @@ class ConfigHandler(BaseHTTPRequestHandler):
         else:
             config["NETWORK_STREAMING"]["rtmp_enabled"] = "false"
 
+        if "cifs_version" in params_dict:
+            config["CIFS"]["cifs_version"] = params_dict["cifs_version"]
+        if "cifs_storage_mode" in params_dict:
+            config["CIFS"]["cifs_storage_mode"] = params_dict["cifs_storage_mode"]
+        if "cifs_storage_path" in params_dict:
+            config["CIFS"]["cifs_storage_path"] = params_dict["cifs_storage_path"]
+        if "cifs_ip_address" in params_dict:
+            config["CIFS"]["cifs_ip_address"] = params_dict["cifs_ip_address"]
+        if "cifs_username" in params_dict:
+            config["CIFS"]["cifs_username"] = params_dict["cifs_username"]
+        if "cifs_password" in params_dict:
+            config["CIFS"]["cifs_password"] = params_dict["cifs_password"]
+            
         ConfigManager.save_config(config)
 
         # Redirect back to the form

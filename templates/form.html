@@ -208,6 +208,46 @@
                     <input type="text" name="patient_id" id="patient_id" value="{{ config['RECORDING']['patient_id'] }}">
                 </div>
 
+                <h2 style="margin-top: 20px;">CIFS Settings</h2>
+
+                <div class="form-group">
+                    <!-- ip address input -->
+                    <label for="cifs_ip_address">IP Address:</label>
+                    <input type="text" name="cifs_ip_address" id="cifs_ip_address" value="{{ config['CIFS']['cifs_ip_address'] }}">
+                </div>
+
+                <div class="form-group">
+                    <!-- username input -->
+                    <label for="cifs_username">Username:</label>
+                    <input type="text" name="cifs_username" id="cifs_username" value="{{ config['CIFS']['cifs_username'] }}">
+                </div>
+
+                <div class="form-group">
+                    <!-- password input -->
+                    <label for="cifs_password">Password:</label>
+                    <input type="password" name="cifs_password" id="cifs_password" value="{{ config['CIFS']['cifs_password'] }}">
+                </div>
+
+                <div class="form-group">
+                    <!-- cifs version input -->
+                    <label for="cifs_version">CIFS Version:</label>
+                    <input type="text" name="cifs_version" id="cifs_version" value="{{ config['CIFS']['cifs_version'] }}">
+                </div>
+
+                <div class="form-group">
+                    <!-- storage mode is a select with copy and move -->
+                    <label for="cifs_storage_mode">Storage Mode:</label>
+                    <select name="cifs_storage_mode" id="cifs_storage_mode">
+                        <option value="copy" {% if config['CIFS']['cifs_storage_mode'] == 'copy' %} selected{% endif %}>Copy</option>
+                        <option value="move" {% if config['CIFS']['cifs_storage_mode'] == 'move' %} selected{% endif %}>Move</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <!-- storage path input -->
+                    <label for="cifs_storage_path">Storage Path:</label>
+                    <input type="text" name="cifs_storage_path" id="cifs_storage_path" value="{{ config['CIFS']['cifs_storage_path'] }}">
+                </div>
 
             
             </div>
@@ -279,6 +319,10 @@
 
         function updateConfig() {
             const formData = new FormData(document.getElementById('config-form'));
+            
+            // Ensure static_ip is included
+            formData.append('static_ip', document.getElementById('static_ip').value);
+
             fetch('/save-config', {
                 method: 'POST',
                 body: formData
@@ -375,6 +419,10 @@
         document.getElementById('config-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent page refresh
             const formData = new FormData(this);
+            
+            // Ensure static_ip is included
+            formData.append('static_ip', document.getElementById('static_ip').value);
+            
             fetch(this.action, {
                 method: 'POST',
                 body: formData
